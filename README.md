@@ -1,3 +1,4 @@
+
 # brainwave_matrix_intern_1
 
 Name: Rajlaxmi Sushant Jena
@@ -39,3 +40,6 @@ Impact of Discounts and Promotions
 *Impact of Discounts and Promotions: Flash sales and festive discounts contributed to a 30% increase in sales volume during promotional periods.
 
 *Conclusion:ABC Retail Store’s sales performance is heavily influenced by seasonal trends and promotional campaigns. To maximize revenue, the store should focus on targeted marketing strategies, inventory management, and customer engagement through loyalty programs and personalized offers.
+
+![Online C++ Compiler - Programiz - Google Chrome 03-03-2025 03_34_32 PM](https://github.com/user-attachments/assets/0b54ce33-d710-4d4a-8fde-a2ea4f2bc185)
+

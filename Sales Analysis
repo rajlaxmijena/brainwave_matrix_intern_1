@@ -1,0 +1,106 @@
+#include <iostream>
+#include <vector>
+#include <map>
+#include <algorithm>
+#include <numeric>
+#include <iomanip> // For formatting output
+
+struct Sale {
+    std::string date; // YYYY-MM-DD
+    int productID;
+    std::string category;
+    int quantity;
+    double price;
+    double totalSales;
+};
+
+// Function to calculate total sales for a Sale object
+double calculateTotalSales(const Sale& sale) {
+    return sale.quantity * sale.price;
+}
+
+// Function to calculate average of a vector of doubles
+double calculateAverage(const std::vector<double>& values) {
+    if (values.empty()) {
+        return 0.0;
+    }
+    double sum = std::accumulate(values.begin(), values.end(), 0.0);
+    return sum / values.size();
+}
+
+// Function to find top N selling products
+std::vector<std::pair<int, double>> findTopSellingProducts(const std::vector<Sale>& sales, int topN) {
+    std::map<int, double> productSales;
+    for (const auto& sale : sales) {
+        productSales[sale.productID] += sale.totalSales;
+    }
+
+    std::vector<std::pair<int, double>> productSalesVector(productSales.begin(), productSales.end());
+    std::sort(productSalesVector.begin(), productSalesVector.end(),
+              [](const std::pair<int, double>& a, const std::pair<int, double>& b) {
+                  return a.second > b.second;
+              });
+
+    std::vector<std::pair<int, double>> topProducts;
+    for (int i = 0; i < std::min(topN, static_cast<int>(productSalesVector.size())); ++i) {
+        topProducts.push_back(productSalesVector[i]);
+    }
+    return topProducts;
+}
+
+// Function to calculate category sales
+std::map<std::string, double> calculateCategorySales(const std::vector<Sale>& sales) {
+    std::map<std::string, double> categorySales;
+    for (const auto& sale : sales) {
+        categorySales[sale.category] += sale.totalSales;
+    }
+    return categorySales;
+}
+
+int main() {
+    // Sample sales data (replace with your actual data)
+    std::vector<Sale> sales = {
+        {"2023-10-26", 101, "Electronics", 2, 150.0, 0.0},
+        {"2023-10-26", 202, "Clothing", 5, 30.0, 0.0},
+        {"2023-10-27", 101, "Electronics", 1, 150.0, 0.0},
+        {"2023-10-27", 303, "Home Goods", 3, 50.0, 0.0},
+        {"2023-10-28", 202, "Clothing", 2, 30.0, 0.0},
+        {"2023-10-28", 404, "Books", 10, 10.0, 0.0},
+        {"2023-10-29", 101, "Electronics", 3, 150.0, 0.0}
+    };
+
+    // Calculate total sales for each sale
+    for (auto& sale : sales) {
+        sale.totalSales = calculateTotalSales(sale);
+    }
+
+    // Calculate total sales
+    double totalSales = 0.0;
+    for (const auto& sale : sales) {
+        totalSales += sale.totalSales;
+    }
+    std::cout << "Total Sales: Rs." << std::fixed << std::setprecision(2) << totalSales << std::endl;
+
+    // Calculate category sales
+    std::map<std::string, double> categorySales = calculateCategorySales(sales);
+    std::cout << "\nSales by Category:\n";
+    for (const auto& pair : categorySales) {
+        std::cout << pair.first << ": Rs." << std::fixed << std::setprecision(2) << pair.second << std::endl;
+    }
+
+    // Find top 3 selling products
+    std::vector<std::pair<int, double>> topProducts = findTopSellingProducts(sales, 3);
+    std::cout << "\nTop 3 Selling Products:\n";
+    for (const auto& pair : topProducts) {
+        std::cout << "Product ID: " << pair.first << ", Sales: Rs." << std::fixed << std::setprecision(2) << pair.second << std::endl;
+    }
+
+    // Calculate Average price of items sold.
+    std::vector<double> prices;
+    for(const auto& sale : sales){
+        prices.push_back(sale.price);
+    }
+    std::cout << "\nAverage Price of items sold: Rs." << std::fixed << std::setprecision(2) << calculateAverage(prices) << std::endl;
+
+return 0;
+}
